@@ -1,0 +1,64 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\subsection{Pairwise Swap}
+\begin{question}
+Consider p processes (p is even), each process has 1 data element. The even processes s swap their element with their neighbour s+1 (= pair-wise swap).
+\begin{enumerate}
+	\item Give a BSP algorithm.
+	\item What is the $h$-relation?
+	\item Suppose (non-BSP) 2-sided send and receive. When send transmits, hold execution until remote process receives. Then execute the communication and both processes continue. This is blocking pair-wise communication (as featured in MPI). Give the algorithm.
+	\item Executing a send-receive communication has start-up time $s$, and data is transfered with bandwidth $b$. Is $s < l$? Will the cost be higher than the BSP algorithm from 1.1?
+\end{enumerate}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{SpMV}
+\begin{question}
+$A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
+\begin{enumerate}
+	\item What is the sequential cost of $y=Ax$?
+	\item Assume $A$ is distributed row-wise in a 1D fashion. Which phase, if any, of the classic SpMV phases (fan-out, SpMV, fan-in) will disappear? What will be the new total cost? What will be the parallel overhead?
+	\item $H=(V,N)$ is a hypergraph of A. What hypergraph model would you use to distribute A using the previous 1D distribution type? Give definitions of $V$ and $N$ in that model.
+	\item Assume SpMV algorithm 4.5 as in the book. Use your definition of $H$ from the previous question to write a cost function that measures the number of gets and puts.
+\end{enumerate}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{Odd-Even Transposition}
+\begin{question}
+Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition sort, the fundamental operation is compare-exchange (when each process has 1 element, $n = p$) or compare-split (each process has $n/p$ elements). Give for both cases:
+\begin{enumerate}
+	\item A BSP algorithm.
+	\item Parallel execution time.
+	\item Parallel efficiency.
+	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
+\end{enumerate}
+
+
+
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{Shared Memory}
+\begin{question}
+We have p threads running the same SPMD program on a shared memory computer. Will the following algorithm work? Describe any possible problems. Supply a working parallel algorithm.
+\begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:spmd]
+double a;
+double x[1000];
+double y[1000];
+
+void spmd(){
+	for (i=0; i<1000; i+=p)
+		a = a + x[i]y[i];
+}
+\end{lstlisting}
+
+\end{question}
+\begin{solution}
+\end{solution}
+
+\end{document}
