@@ -1,0 +1,128 @@
+\documentclass[a4paper, 10pt, oneside]{article}
+
+% Essentials
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage[backend=bibtex,style=ieee]{biblatex}
+\usepackage[tmargin=3cm, bmargin=2cm, lmargin=2cm, rmargin=2cm]{geometry}
+\usepackage[backend=bibtex,style=ieee]{biblatex}
+
+% Bibliography
+%\bibliography{main}
+
+% Optional but useful
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{subfiles}
+\usepackage{enumitem}
+\usepackage{tabularx,booktabs,multirow}
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{lipsum}
+\usepackage{mdframed}
+\usepackage{csquotes}
+\usepackage[table]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titling}
+
+% Fancy Header
+\pagestyle{fancy}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot{}
+
+% Indentation
+\setlength\parindent{0pt}
+
+% Title
+\title{Parallel Computing}
+\date{\today}
+\author{\textbf{Dieter Castel \& Jonas Devlieghere}}
+
+% Theorems
+\setlist[description]{style=nextline}
+\setlength\parindent{0pt}
+\graphicspath{{figures/}{../figures/}}
+
+\theoremstyle{definition}
+\newtheorem*{question}{Question}
+\newtheorem*{solution}{Solution}
+\begin{document}
+
+% Title page
+\maketitle
+\newpage
+
+% Table of Contents
+\tableofcontents
+\newpage
+
+% Main Matter
+\section{Exam 2014-01-24}
+
+\subsection{One-to-All}
+\begin{question}
+Given are $P$ processors. Processor $p(0)$ sends an element to all processors. (one-to-all).
+\begin{enumerate}
+	\item Given the BSP program.
+	\item What is the $h$-relation.
+	\item How can this be improved, given that $l << g$.
+\end{enumerate}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{LU Factorization}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{Parallel Efficiency}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{BSP Quicksort}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\section{Exam 2014-01-17}
+
+\subsection{Pairwise Swap}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{SpMV}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{Odd-Even Transposition}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+\subsection{Shared Memory}
+\begin{question}
+\end{question}
+\begin{solution}
+\end{solution}
+
+% Appendix
+\newpage
+\appendix
+\printbibliography
+
+\end{document}
