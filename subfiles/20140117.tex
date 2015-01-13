@@ -72,7 +72,7 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 		$$O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}$$
 		\item "A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)" \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall i \in I$ we define a net $n_i \in N$ with  
 			$$ n_i = \{j \in J | a_{ij} \neq 0\} $$
-			If you now partition the rows $I$ uniformly over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
+			If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
 			$$ A_{5x4} = \begin{bmatrix}
 					0 & 3 & 0 & 0 \\
 					0 & 0 & 1 & 4 \\
@@ -105,7 +105,7 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 					\label{fig:hypergraph}
 			\end{figure}
 
-		\item 
+		\item %TODO What cost function? How to partition?
 
 \end{enumerate}
 \end{solution}
