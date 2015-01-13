@@ -29,7 +29,7 @@ void pairwiseSwap(){
 }
 \end{lstlisting}
 	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$.
-	\item The non-BSP program for one-to-all communication is given below. We assume primitives \texttt{send(message, dest)} and \texttt{receive(message, sender)}.
+	\item The non-BSP program for one-to-all communication is given below. We assume primitives \texttt{send(message, dest)} and \texttt{receive(message, sender)}. The data is not buffered.
 \begin{lstlisting}
 void pairwiseSwap(){
 	init_comm(s,P);
@@ -37,12 +37,12 @@ void pairwiseSwap(){
 	if(s % 2 == 0){
 		send(s+1, data);
 		receive(data, sendproc);
-		if(sendproc == s + 1)
+		if(sendproc != s + 1)
 			ERROR
 	}else if{
 		send(s-1, data;
 		receive(data, sendproc);
-		if(sendproc == s - 1)
+		if(sendproc != s - 1)
 			ERROR
 	}
 }
