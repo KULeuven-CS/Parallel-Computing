@@ -63,8 +63,13 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 \end{question}
 \begin{solution}
 \begin{enumerate}
-		\item The sequential cost of $y=Ax$ is $2cm$ flops \cite[p.166]{bisseling2004parallel} where $c$ is the fixed number of nonzeroes in a row of A and $m$ the amount of rows. This holds because the usded data-structures make it possible to only take multiplications with a nonzero into account.
-		\item 
+		\item The sequential cost of $y=Ax$ is $T_{seq} = 2cm$ flops \cite[p.~166]{bisseling2004parallel} where $c$ is the fixed number of nonzeroes in a row of A and $m$ the amount of rows. This holds because the usded data-structures make it possible to only take multiplications with a nonzero into account.
+		\item The fan-in step will disappear. Because if a processor holds an entire row it can calculate the partial sum $y_i$ of that row easiliy without relying on any other partial computations \cite[p.~176]{bisseling2004parallel}.  The total (worst case) cost of the unchanged algorithm is 
+				$$T_{MV} \leq \frac{2cn}{p} + n + 2 \Big( 1 - \frac{1}{p} \Big) ng + 4l $$
+				where the fan-in superstep costs $T_{(2)} = (1-\frac{1}{p})ng + l$ and the last superstep $T_{(3)} = n + l $ \cite[p.~178]{bisseling2004parallel}. Because there is only one partial sum per row with the given distribution $T_{(3)}' = \frac{n}{p} + l $ and removing $T_{(3)}$ entirely gives us 
+				$$T_{MV}' \leq \frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l $$
+				The parallel overhead overhead is defined as the difference between the normalized cost and the ideal 1. So the overhead here is \cite[p.~141]{bisseling2004parallel}:
+		$$O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}$$
 \end{enumerate}
 \end{solution}
 
