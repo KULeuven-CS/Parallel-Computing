@@ -109,7 +109,21 @@ either decreasing the number of processors (Amdahl's Law) or increasing the prob
 Give a high-level description of a BSP quicksort algorithm. For each step, calculate the BSPC cost ($a + bg + cl$).
 Calculate the total cost and give the overhead and efficiency. Discuss your results.
 \end{question}
-\begin{solution}
+\begin{solution} The algorithm is described below.
+
+\begin{enumerate}
+	\item \textbf{Superstep 1:} Determine and broadcast the pivot. This translates to a regular broadcast, with BSP-cost $(p-1)g + l$. Optionally, this can be achieved with a recursion tree, resulting in a cost of $(g+l) log (p)$.
+	\item \textbf{Superstep 2:} Locally rearrange the array assigned to each process. It takes $(n/p)$ FLOPS to compare each value with the pivot. This costs $(n/p) + l$
+	\item \textbf{Superstep 3:} Determine the locations in the globally rearranged array that the local elements will go to. This can be achieved by either using \emph{prefix sums} or \emph{partial sums}. Regardless, it translates to all-to-all communication which costs $(p-1)g + l$.
+	\item \textbf{Superstep 4:} In this step the the global rearrangement is performed. This is again a case of all-to-all communication, costing $(p-1)g + l$.
+\end{enumerate}
+
+The total cost is then the sum of the cost of each superstep. These are repeated $log(n)$ times.
+
+\begin{equation}
+\frac{n \cdot log(n)}{p} + 3log(n)(p-1)g + 4log(n)l
+\end{equation}
+
 \end{solution}
 
 \end{document}
