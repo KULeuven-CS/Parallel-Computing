@@ -62,6 +62,10 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 \end{enumerate}
 \end{question}
 \begin{solution}
+\begin{enumerate}
+		\item The sequential cost of $y=Ax$ is $2cm$ flops \cite[p.166]{bisseling2004parallel} where $c$ is the fixed number of nonzeroes in a row of A and $m$ the amount of rows. This holds because the usded data-structures make it possible to only take multiplications with a nonzero into account.
+		\item 
+\end{enumerate}
 \end{solution}
 
 \subsection{Odd-Even Transposition}
@@ -100,7 +104,7 @@ There are two common pitfalls with non-BSP shared memory implementations: \textb
 \\\\
 We briefly discuss the other two pitfalls while giving the correct implementation. One solution  is storing the partial sums separately. Using an array of $p$ elements however would lead to \textbf{false sharing}. On every iteration, the array would be marked dirty in the cache, even though the value change at index i (at $p(i)$) is logically independent of the chance of value at index j (at $p(j)$). The last pitfall occurs when we choose to extend the array so that each cache line is only accessed by a single processor. This works, but leads to inefficient cache use because all processors would be accessing all cache lines. The correct solution is given below.
 
-\begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:spmd]
+\begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:spmd2]
 double a[8p];
 double x[1000];
 double y[1000];
