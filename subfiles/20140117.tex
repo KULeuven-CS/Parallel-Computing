@@ -11,7 +11,43 @@ Consider p processes (p is even), each process has 1 data element. The even proc
 	\item Executing a send-receive communication has start-up time $s$, and data is transfered with bandwidth $b$. Is $s < l$? Will the cost be higher than the BSP algorithm from 1.1?
 \end{enumerate}
 \end{question}
-\begin{solution}
+\begin{solution} The solution to the subquestions are given below.
+\begin{enumerate}
+	\item The BSP program for one-to-all communication is given below.
+\begin{lstlisting}
+void pairwiseSwap(){
+	bsp_begin(P);
+	bsp_push_reg(element);
+	int s = bsp_pid();
+	if(s % 2 == 0){
+		bsp_put(s+1, data, element, 0, sizeof(data));
+	}else if{
+		bsp_put(s-1, data, element, 0, sizeof(data));
+	}
+	bsp_sync();
+	bsp_end();
+}
+\end{lstlisting}
+	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$.
+	\item The non-BSP program for one-to-all communication is given below. We assume primitives \texttt{send(message, dest)} and \texttt{receive(message, sender)}.
+\begin{lstlisting}
+void pairwiseSwap(){
+	init_comm(s,P);
+
+	if(s % 2 == 0){
+		send(s+1, data);
+		receive(data, sendproc);
+		if(sendproc == s + 1)
+			ERROR
+	}else if{
+		send(s-1, data;
+		receive(data, sendproc);
+		if(sendproc == s - 1)
+			ERROR
+	}
+}
+\end{lstlisting}
+\end{enumerate}
 \end{solution}
 
 \subsection{SpMV}
