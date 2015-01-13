@@ -10,7 +10,35 @@ Given are $P$ processors. Processor $p(0)$ sends an element to all processors. (
 	\item How can this be improved, given that $l << g$.
 \end{enumerate}
 \end{question}
-\begin{solution}
+\begin{solution} The solution to the subquestions are given below.
+\begin{enumerate}
+	\item The BSP program for one-to-all communication is given below.
+\begin{lstlisting}
+void oneToAll(){
+	bsp_begin(P);
+	bsp_push_reg(element);
+	for(pid=1; pid<P; pid++){
+		bsp_put(pid, data, element, 0, sizeof(data));
+	}
+	bsp_sync();
+	bsp_end();
+}
+\end{lstlisting}
+	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, $p(0)$ sends a single element to
+	$(p-1)$ processors.
+	\begin{equation}
+		h = (p - 1)
+	\end{equation}
+	The BPS cost is given by $T_\text{comm}(h) = hg + l$, making the cost of this broadcast $(p-1)g + l$.
+	\item If the cost of $l$ is significantly less than $g$, splitting the broadcast over multiple communication
+	supersteps can reduce cost. Am example is a multi-level broadcast where every processor sends the element to two
+	others. In $log_2(p)$ supersteps, every processor has received the element.
+	\begin{equation}
+		T_\text{comm} = \lceil log_2(P) \rceil (2g + l)
+	\end{equation}
+\end{enumerate}
+
+
 \end{solution}
 
 \subsection{LU Factorization}
@@ -18,23 +46,47 @@ Given are $P$ processors. Processor $p(0)$ sends an element to all processors. (
 LU factorization with 2-phase broadcast.
 \begin{enumerate}
 	\item Give the total sequential cost and its order.
-	\item Give the total BSP cost and its order when the data is distributed over $\sqrt{P} \times \sqrt{P}$ processors.
+	\item Give the total BSP cost and its order when the data is distributed over $\sqrt{P} \times \sqrt{P}$
+	processors.
 	\item Given the order of the total cost when distributed over $1 \times P$ processors.
 \end{enumerate}
 \end{question}
-\begin{solution}
+\begin{solution} The solution to the subquestions are given below.
+\begin{enumerate}
+	\item The number of flops in the LU decomposition with row permutations is given in \autoref{eq:tseqlu}.
+	\begin{equation}\label{eq:tseqlu}
+		\begin{array}{ll}
+		T_{seq} & = \displaystyle\sum_{k=0}^{n-1} (2(n - k - 1)^2 + n - k -1) \\
+				& = \displaystyle\sum_{k=0}^{n-1} (2k^2 + k) \\
+				& = \dfrac{(n-1)n(2n-1)}{3} + \dfrac{(n-1)n)}{2} \\
+				& = \dfrac{2n^3}{3} - \dfrac{n^2}{2} - \dfrac{n}{6} \\
+		\end{array}
+	\end{equation}
+	The sequential LU-decomposition algorithm is $\mathcal{O}(n^3)$.
+	\item The number of flops in the LU decomposition with row permutations is given in \autoref{eq:tparlu}.
+	\begin{equation}\label{eq:tparlu}
+			T_{LU}  = \dfrac{2n^3}{3p} + \dfrac{3n^2}{2\sqrt{p}} + \dfrac{3n^2g}{\sqrt{p}} + 8nl
+	\end{equation}
+\end{enumerate}
 \end{solution}
 
 \subsection{Parallel Efficiency}
 \begin{question}
-Given a multicore program for calculating the average value of a matrix $A$. What is the efficiency and how can we do better?
+Given a multicore program for calculating the average value of a matrix $A$. What is the efficiency and how can we do
+better?
 \end{question}
-\begin{solution}
+\begin{solution} The \emph{Parallel Efficiency} is defined in \autoref{eq:pareff}. The efficiency correlates the
+increase in speedup with the number of processors. The efficiency of a given parallel algorithm can be increased by
+either decreasing the number of processors (Amdahl's Law) or increasing the problem size.
+\begin{equation}\label{eq:pareff}
+	E = \frac{T_\text{sec}}{p \cdot T_p} = \frac{S}{p}
+\end{equation}
 \end{solution}
 
 \subsection{BSP Quicksort}
 \begin{question}
-Give a high-level description of a BSP quicksort algorithm. For each step, calculate the cost ($a + bg + cl$). Calculate the total cost and give the overhead and efficiency. Discuss your results.
+Give a high-level description of a BSP quicksort algorithm. For each step, calculate the BSPC cost ($a + bg + cl$).
+Calculate the total cost and give the overhead and efficiency. Discuss your results.
 \end{question}
 \begin{solution}
 \end{solution}
