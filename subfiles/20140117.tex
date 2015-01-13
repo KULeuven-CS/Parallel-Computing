@@ -28,7 +28,7 @@ void pairwiseSwap(){
 	bsp_end();
 }
 \end{lstlisting}
-	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$.
+	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$. The total cost is $T = g + l$.
 	\item The non-BSP program for one-to-all communication is given below. We assume primitives \texttt{send(message, dest)} and \texttt{receive(message, sender)}. The data is not buffered.
 \begin{lstlisting}
 void pairwiseSwap(){
@@ -40,13 +40,14 @@ void pairwiseSwap(){
 		if(sendproc != s + 1)
 			ERROR
 	}else if{
-		send(s-1, data;
 		receive(data, sendproc);
+		send(s-1, data;
 		if(sendproc != s - 1)
 			ERROR
 	}
 }
 \end{lstlisting}
+\item The message-passing cost is modeled as $T(n) = s + bn$. Because each processor sends one element and receives another, the total cost is given by $T = 2(s+b)$. Assuming the same cost per word ($g=b$), the BSP algorithm is faster unless $2(s+g) < g + l$ or $2s < l - g$.
 \end{enumerate}
 \end{solution}
 
