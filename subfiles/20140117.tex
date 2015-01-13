@@ -96,6 +96,22 @@ void spmd(){
 
 \end{question}
 \begin{solution}
+There are two common pitfalls with non-BSP shared memory implementations: \textbf{data races}, \textbf{false sharing} and \textbf{inefficient cache use}. The given problem is an illustration of the first. A data race occurs when multiple processors access the same memory location concurrently and at least one of them is writing. This leads to inconsistencies and the value most likely to be incorrect.
+\\\\
+We briefly discuss the other two pitfalls while giving the correct implementation. One solution  is storing the partial sums separately. Using an array of $p$ elements however would lead to \textbf{false sharing}. On every iteration, the array would be marked dirty in the cache, even though the value change at index i (at $p(i)$) is logically independent of the chance of value at index j (at $p(j)$). The last pitfall occurs when we choose to extend the array so that each cache line is only accessed by a single processor. This works, but leads to inefficient cache use because all processors would be accessing all cache lines. The correct solution is given below.
+
+\begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:spmd]
+double a[8p];
+double x[1000];
+double y[1000];
+int n = 1000;
+void spmd(){
+	for (i=s*ceil(n/p); i<(s+1)*ceil(n/p)); i++)
+		a[8s] += x[i]y[i];
+}
+\end{lstlisting}
+
+
 \end{solution}
 
 \end{document}
