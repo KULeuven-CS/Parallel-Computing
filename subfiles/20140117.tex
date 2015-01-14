@@ -118,42 +118,42 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 		\begin{multlined}
 			A_{5\times4} = 
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			0 & 0 & 1 & 1 \\
-			0 & 0 & 0 & 0 \\
-			0 & 1 & 0 & 0 \\
-			1 & 0 & 1 & 0
+			\cdot & 1 & \cdot & \cdot \\
+			\cdot & \cdot & 1 & 1 \\
+			\cdot & \cdot & \cdot & \cdot \\
+			\cdot & 1 & \cdot & \cdot \\
+			1 & \cdot & 1 & \cdot
 			\end{bmatrix} 
 			\xrightarrow[(r_0,r_3),(r_1,r_4)]{coarsen}
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			1 & 0 & 1 & 1 \\
-			0 & 0 & 0 & 0 \\
+			\cdot & 1 & \cdot & \cdot \\
+			1 & \cdot & 1 & 1 \\
+			\cdot & \cdot & \cdot & \cdot \\
 			\end{bmatrix} 
 			\xrightarrow[(r_0,r_2)]{coarsen}
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			1 & 0 & 1 & 1 \\
+			\cdot & 1 & \cdot & \cdot \\
+			1 & \cdot & 1 & 1 \\
 			\end{bmatrix} 
 			\\
 			\xrightarrow[]{partition}
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			\mathbf{1} & 0 & \mathbf{1} & \mathbf{1} \\
+			\cdot & 1 & \cdot & \cdot \\
+			\mathbf{1} & \cdot & \mathbf{1} & \mathbf{1} \\
 			\end{bmatrix} 
 			\xrightarrow[(r0,r2)]{uncoarsen}
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			\mathbf{1} & 0 & \mathbf{1} & \mathbf{1} \\
-			0 & 0 & 0 & 0 \\
+			\cdot & 1 & \cdot & \cdot \\
+			\mathbf{1} & \cdot & \mathbf{1} & \mathbf{1} \\
+			\cdot & \cdot & \cdot & \cdot \\
 			\end{bmatrix} 
 			\xrightarrow[(r_0,r_3),(r_1,r_4)]{uncoarsen}
 			\begin{bmatrix}
-			0 & 1 & 0 & 0 \\
-			0 & 0 & \mathbf{1} & \mathbf{1} \\
-			0 & 0 & 0 & 0 \\
-			0 & 1 & 0 & 0 \\
-			\mathbf{1} & 0 & \mathbf{1} & 0
+			\cdot & 1 & \cdot & \cdot \\
+			\cdot & \cdot & \mathbf{1} & \mathbf{1} \\
+			\cdot & \cdot & \cdot & \cdot \\
+			\cdot & 1 & \cdot & \cdot \\
+			\mathbf{1} & \cdot & \mathbf{1} & \cdot
 			\end{bmatrix} 
 		\end{multlined}
 		\end{equation}
@@ -175,7 +175,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \end{question}
 \begin{solution} The solution to the subquestions are given below.
 \begin{enumerate}
-	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
+	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}. This implementation assumes that their are at least as many processors available as there are data elements.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
 	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each. 
 	\item The parallel efficiency is defined as
