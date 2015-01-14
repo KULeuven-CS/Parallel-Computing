@@ -71,38 +71,38 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 			The parallel overhead overhead is defined as the difference between the normalized cost and the ideal 1. So the overhead here is \cite[p.~141]{bisseling04}:
 	$$O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}$$
 	\item "A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)" \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall i \in I$ we define a net $n_i \in N$ with  
-		$$ n_i = \{j \in J | a_{ij} \neq 0\} $$
-		If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
-		$$ A_{5x4} = \begin{bmatrix}
-				0 & 3 & 0 & 0 \\
-				0 & 0 & 1 & 4 \\
-				0 & 0 & 0 & 0 \\
-				0 & 5 & 0 & 0 \\
-				9 & 0 & 2 & 0
-		\end{bmatrix}$$
-		\begin{figure}
-				\begin{tikzpicture}
-						\node[vertex,label=above:\(v_1\)] (v1) {};
-						\node[vertex,below of=v1,label=above:\(v_2\)] (v2) {};
-						\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
-						\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
-						\node[vertex,right of=v3,label=above:\(v_5\)] (v5) {};
-						\begin{pgfonlayer}{background}
-								\draw[edge,color=yellow] (v1) -- (v3);
-								\draw[edge,opacity=1,color=green] (v3) -- (v4);
-								\draw[edge,color=red] (v2) -- (v2);
-								\draw[edge,line width=60pt ,color=blue] (v2) -- (v2);
-						\end{pgfonlayer}
+	$$ n_i = \{j \in J | a_{ij} \neq 0\} $$
+	If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
+	$$ A_{5x4} = \begin{bmatrix}
+		0 & 3 & 0 & 0 \\
+		0 & 0 & 1 & 4 \\
+		0 & 0 & 0 & 0 \\
+		0 & 5 & 0 & 0 \\
+		9 & 0 & 2 & 0
+	\end{bmatrix}$$
+	\begin{figure}
+		\begin{tikzpicture}
+		\node[vertex,label=above:\(v_1\)] (v1) {};
+		\node[vertex,below of=v1,label=above:\(v_2\)] (v2) {};
+		\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
+		\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
+		\node[vertex,right of=v3,label=above:\(v_5\)] (v5) {};
+		\begin{pgfonlayer}{background}
+			\draw[edge,color=yellow] (v1) -- (v3);
+			\draw[edge,opacity=1,color=green] (v3) -- (v4);
+			\draw[edge,color=red] (v2) -- (v2);
+			\draw[edge,line width=60pt ,color=blue] (v2) -- (v2);
+		\end{pgfonlayer}
 
-						\node[elabel,color=red,label=right:\(n_1\)]  (n1) at (-3,0) {};
-						\node[elabel,below of=n1,color=green,label=right:\(n_2\)]  (n2) {};
-						\node[elabel,below of=n2,color=orange,label=right:\(n_3\)]  (n3) {};
-						\node[elabel,below of=n3,color=blue,label=right:\(n_4\)]  (n4) {};
-						\node[elabel,below of=n4,color=yellow,label=right:\(n_4\)]  (n5) {};
-				\end{tikzpicture}
-				\centering
-				\caption{The hypergraph of the $A_{5x4}$ matrix.}
-				\label{fig:hypergraph}
+		\node[elabel,color=red,label=right:\(n_1\)]  (n1) at (-3,0) {};
+		\node[elabel,below of=n1,color=green,label=right:\(n_2\)]  (n2) {};
+		\node[elabel,below of=n2,color=orange,label=right:\(n_3\)]  (n3) {};
+		\node[elabel,below of=n3,color=blue,label=right:\(n_4\)]  (n4) {};
+		\node[elabel,below of=n4,color=yellow,label=right:\(n_4\)]  (n5) {};
+		\end{tikzpicture}
+		\centering
+		\caption{The hypergraph of the $A_{5x4}$ matrix.}
+		\label{fig:hypergraph}
 		\end{figure}
 
 	\item %TODO What cost function? How to partition?
@@ -123,7 +123,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \begin{solution} The solution to the subquestions are given below.
 \begin{enumerate}
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
-		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{../code/oddevenbsp.c}
+		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
 	\item Parallel execution time.
 	\item Parallel efficiency.
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
