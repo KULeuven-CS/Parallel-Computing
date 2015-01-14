@@ -76,8 +76,8 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 			\begin{equation}
 				O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}
 			\end{equation}
-	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall i \in I$ we define a net $n_i \in N$ with
-	$$ n_i = \{j \in J ~|~ a_{ij} \neq 0\} $$
+	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall j \in J$ we define a net $n_j \in N$ with
+	$$ n_j = \{i \in I ~|~ a_{ij} \neq 0\} $$ 
 	If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5 \times 4$ matrix below can be found in \autoref{fig:hypergraph}.
 
 		\begin{equation}
@@ -113,8 +113,53 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 		\caption{The hypergraph of the $A_{5\times4}$ matrix.}
 		\label{fig:hypergraph}
 		\end{figure}
-	\item Since we are working with a column-net model coarsening means combining similar rows. As example partition we can partition $H$ for 3 processors like this: $\{\{0,1\},\{2,3\},\{4\}\}$.
+	\item Since we are working with a column-net model coarsening means combining similar rows.
+		\begin{equation}
+		\begin{multlined}
+			A_{5\times4} = 
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			0 & 0 & 1 & 1 \\
+			0 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			1 & 0 & 1 & 0
+			\end{bmatrix} 
+			\xrightarrow[(r_0,r_3),(r_1,r_4)]{coarsen}
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			1 & 0 & 1 & 1 \\
+			0 & 0 & 0 & 0 \\
+			\end{bmatrix} 
+			\xrightarrow[(r_0,r_2)]{coarsen}
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			1 & 0 & 1 & 1 \\
+			\end{bmatrix} 
+			\\
+			\xrightarrow[]{partition}
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			\mathbf{1} & 0 & \mathbf{1} & \mathbf{1} \\
+			\end{bmatrix} 
+			\xrightarrow[(r0,r2)]{uncoarsen}
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			\mathbf{1} & 0 & \mathbf{1} & \mathbf{1} \\
+			0 & 0 & 0 & 0 \\
+			\end{bmatrix} 
+			\xrightarrow[(r_0,r_3),(r_1,r_4)]{uncoarsen}
+			\begin{bmatrix}
+			0 & 1 & 0 & 0 \\
+			0 & 0 & \mathbf{1} & \mathbf{1} \\
+			0 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			\mathbf{1} & 0 & \mathbf{1} & 0
+			\end{bmatrix} 
+		\end{multlined}
+		\end{equation}
+		We found the following 2-way row partition: $\{\{0,2,3\},\{1,4\}\}$. No refinements were needed. 
 \end{enumerate}
+
 \end{solution}
 
 \subsection{Odd-Even Transposition}
