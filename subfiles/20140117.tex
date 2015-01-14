@@ -123,54 +123,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \begin{solution} The solution to the subquestions are given below.
 \begin{enumerate}
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
-		\begin{lstlisting}[caption="BSP odd-even transposition sort.",label=lst:oddeven]
-		void odd_even_par(float *array, int n){
-				//array is a pointer to the array to sort.
-				//n = length of the array and assumed a multiple of P(or p).
-				bsp_begin(P);
-				//Initialisation and data distribution superstep
-				int p = bsp_nprocs(); 
-				int s = bsp_pid();
-				int localsize = sizeof(float)*n/p;
-				int *localarray = malloc(localsize);
-				for(int i=0; i<n/p; i++){
-						localarray[i] = array[s+i*n/p];
-				}
-				bsp_push_reg(localarray, localsize);
-				bsp_sync();
-				
-				//Initialisation superstep
-				for(int i=1; i<=n; i++){
-						if(!isEven(i)){ // i is odd
-								if(!isEven(s)){ // pid is odd
-										comp_exch_min(s+1);
-								} else { // pid is even
-										comp_exch_max(s-1);
-								}
-						} else { // i is even
-								if(isEven(s)){ // pid is even
-										comp_exch_min(s+1);
-								} else { // pid is odd 
-										comp_exch_max(s-1);
-								}
-						}
-
-				}
-		}
-
-		int isEven(int i){
-				return i % 2;	
-		}
-
-		void comp_exch_min(int otherpid){
-				
-		}
-
-		void comp_exch_max(int otherpid){
-		
-		}
-		\end{lstlisting}
-			
+		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{../code/oddevenbsp.c}
 	\item Parallel execution time.
 	\item Parallel efficiency.
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
