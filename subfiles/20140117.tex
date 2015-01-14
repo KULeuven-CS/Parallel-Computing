@@ -124,7 +124,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\item A BSP algorithm.
 	\item Parallel execution time. 
 	\item Parallel efficiency.
-	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
+	\item For $n/p$ elements: if $n$ increases (with a fixed $p$), what will happen to the parallel efficiency?
 \end{enumerate}
 
 \end{question}
@@ -133,7 +133,14 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
 	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each. 
-	\item Parallel efficiency.
+	\item The parallel efficiency is defined as
+	\begin{equation}
+		E = \frac{T_\text{seq}}{p T_p} = \frac{S}{p}
+	\end{equation}
+	The sequential time $T_\text{seq}$ is given by the bubble-sort algorithm, which is $n^2$. The parallel time is given by the answer to the previous question.
+	\begin{equation}
+		E = \frac{n^2}{p \cdot ()}
+	\end{equation}
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
 \end{enumerate}
 \end{solution}
