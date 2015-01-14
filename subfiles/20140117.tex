@@ -81,7 +81,7 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 	If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5 \times 4$ matrix below can be found in \autoref{fig:hypergraph}.
 
 		\begin{equation}
-			A_{5x4} = \begin{bmatrix}
+			A_{5\times4} = \begin{bmatrix}
 			0 & 3 & 0 & 0 \\
 			0 & 0 & 1 & 4 \\
 			0 & 0 & 0 & 0 \\
@@ -92,30 +92,29 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 
 		\begin{figure}[H]
 		\begin{tikzpicture}
-		\node[vertex,label=above:\(v_1\)] (v1) {};
-		\node[vertex,below of=v1,label=above:\(v_2\)] (v2) {};
+		\node[vertex,label=above:\(v_0\)] (v0) {};
+		\node[vertex,below of=v0,label=above:\(v_1\)] (v1) {};
+		\node[vertex,right of=v0,label=above:\(v_2\)] (v2) {};
 		\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
 		\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
-		\node[vertex,right of=v3,label=above:\(v_5\)] (v5) {};
 		\begin{pgfonlayer}{background}
-			\draw[edge,color=yellow] (v1) -- (v3);
-			\draw[edge,opacity=1,color=green] (v3) -- (v4);
-			\draw[edge,color=red] (v2) -- (v2);
-			\draw[edge,line width=60pt ,color=blue] (v2) -- (v2);
+			\draw[edge,color=yellow] (v0) -- (v2);
+			\draw[edge,opacity=1,color=green] (v2) -- (v3);
+			\draw[edge,color=red] (v1) -- (v1);
+			\draw[edge,line width=60pt ,color=blue] (v1) -- (v1);
 		\end{pgfonlayer}
 
-		\node[elabel,color=red,label=right:\(n_1\)]  (n1) at (-3,0) {};
-		\node[elabel,below of=n1,color=green,label=right:\(n_2\)]  (n2) {};
-		\node[elabel,below of=n2,color=orange,label=right:\(n_3\)]  (n3) {};
-		\node[elabel,below of=n3,color=blue,label=right:\(n_4\)]  (n4) {};
-		\node[elabel,below of=n4,color=yellow,label=right:\(n_4\)]  (n5) {};
+		\node[elabel,color=red,label=right:\(n_0\)]  (n0) at (-3,0) {};
+		\node[elabel,below of=n0,color=green,label=right:\(n_1\)]  (n1) {};
+		\node[elabel,below of=n1,color=orange,label=right:\(n_2\)]  (n2) {};
+		\node[elabel,below of=n2,color=blue,label=right:\(n_3\)]  (n3) {};
+		\node[elabel,below of=n3,color=yellow,label=right:\(n_3\)]  (n4) {};
 		\end{tikzpicture}
 		\centering
-		\caption{The hypergraph of the $A_{5x4}$ matrix.}
+		\caption{The hypergraph of the $A_{5\times4}$ matrix.}
 		\label{fig:hypergraph}
 		\end{figure}
-
-	\item %TODO What cost function? How to partition?
+	\item Since we are working with a column-net model coarsening means combining similar rows. As example partition we can partition $H$ for 3 processors like this: $\{\{0,1\},\{2,3\},\{4\}\}$.
 \end{enumerate}
 \end{solution}
 
