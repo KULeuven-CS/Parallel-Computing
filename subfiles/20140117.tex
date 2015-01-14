@@ -61,52 +61,51 @@ $A$ is a sparse $m$ by $n$ matrix, $x$ and $y$ are vectors.
 	\item Assume SpMV algorithm 4.5 as in the book. Use your definition of $H$ from the previous question to write a cost function that measures the number of gets and puts.
 \end{enumerate}
 \end{question}
-\begin{solution}
-\begin{enumerate} The solution to the subquestions are given below.
-		\item The sequential cost of $y=Ax$ is $T_{seq} = 2cm$ flops \cite[p.~166]{bisseling04} where $c$ is the fixed number of nonzeroes in a row of A and $m$ the amount of rows. This holds because the usded data-structures make it possible to only take multiplications with a nonzero into account.
-		\item The fan-in step will disappear. Because if a processor holds an entire row it can calculate the partial sum $y_i$ of that row easiliy without relying on any other partial computations \cite[p.~176]{bisseling04}.  The total (worst case) cost of the unchanged algorithm is 
-				$$T_{MV} \leq \frac{2cn}{p} + n + 2 \Big( 1 - \frac{1}{p} \Big) ng + 4l $$
-				where the fan-in superstep costs $T_{(2)} = (1-\frac{1}{p})ng + l$ and the last superstep $T_{(3)} = n + l $ \cite[p.~178]{bisseling04}. Because there is only one partial sum per row with the given distribution $T_{(3)}' = \frac{n}{p} + l $ and removing $T_{(3)}$ entirely gives us 
-				$$T_{MV}' \leq \frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l $$
-				The parallel overhead overhead is defined as the difference between the normalized cost and the ideal 1. So the overhead here is \cite[p.~141]{bisseling04}:
-		$$O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}$$
-		\item "A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)" \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall i \in I$ we define a net $n_i \in N$ with  
-			$$ n_i = \{j \in J | a_{ij} \neq 0\} $$
-			If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
-			$$ A_{5x4} = \begin{bmatrix}
-					0 & 3 & 0 & 0 \\
-					0 & 0 & 1 & 4 \\
-					0 & 0 & 0 & 0 \\
-					0 & 5 & 0 & 0 \\
-					9 & 0 & 2 & 0
-			\end{bmatrix}$$
-			\begin{figure}
-					\begin{tikzpicture}
-							\node[vertex,label=above:\(v_1\)] (v1) {};
-							\node[vertex,below of=v1,label=above:\(v_2\)] (v2) {};
-							\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
-							\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
-							\node[vertex,right of=v3,label=above:\(v_5\)] (v5) {};
-							\begin{pgfonlayer}{background}
-									\draw[edge,color=yellow] (v1) -- (v3);
-									\draw[edge,opacity=1,color=green] (v3) -- (v4);
-									\draw[edge,color=red] (v2) -- (v2);
-									\draw[edge,line width=60pt ,color=blue] (v2) -- (v2);
-							\end{pgfonlayer}
+\begin{solution} The solution to the subquestions are given below.
+\begin{enumerate} 
+	\item The sequential cost of $y=Ax$ is $T_{seq} = 2cm$ flops \cite[p.~166]{bisseling04} where $c$ is the fixed number of nonzeroes in a row of A and $m$ the amount of rows. This holds because the usded data-structures make it possible to only take multiplications with a nonzero into account.
+	\item The fan-in step will disappear. Because if a processor holds an entire row it can calculate the partial sum $y_i$ of that row easiliy without relying on any other partial computations \cite[p.~176]{bisseling04}.  The total (worst case) cost of the unchanged algorithm is 
+			$$T_{MV} \leq \frac{2cn}{p} + n + 2 \Big( 1 - \frac{1}{p} \Big) ng + 4l $$
+			where the fan-in superstep costs $T_{(2)} = (1-\frac{1}{p})ng + l$ and the last superstep $T_{(3)} = n + l $ \cite[p.~178]{bisseling04}. Because there is only one partial sum per row with the given distribution $T_{(3)}' = \frac{n}{p} + l $ and removing $T_{(3)}$ entirely gives us 
+			$$T_{MV}' \leq \frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l $$
+			The parallel overhead overhead is defined as the difference between the normalized cost and the ideal 1. So the overhead here is \cite[p.~141]{bisseling04}:
+	$$O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}$$
+	\item "A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)" \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall i \in I$ we define a net $n_i \in N$ with  
+		$$ n_i = \{j \in J | a_{ij} \neq 0\} $$
+		If you now partition $H$ over the available processors we have the hypergraph distribution model. The hypergraph of the example $5x4$ matrix below can be found in \autoref{fig:hypergraph}.
+		$$ A_{5x4} = \begin{bmatrix}
+				0 & 3 & 0 & 0 \\
+				0 & 0 & 1 & 4 \\
+				0 & 0 & 0 & 0 \\
+				0 & 5 & 0 & 0 \\
+				9 & 0 & 2 & 0
+		\end{bmatrix}$$
+		\begin{figure}
+				\begin{tikzpicture}
+						\node[vertex,label=above:\(v_1\)] (v1) {};
+						\node[vertex,below of=v1,label=above:\(v_2\)] (v2) {};
+						\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
+						\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
+						\node[vertex,right of=v3,label=above:\(v_5\)] (v5) {};
+						\begin{pgfonlayer}{background}
+								\draw[edge,color=yellow] (v1) -- (v3);
+								\draw[edge,opacity=1,color=green] (v3) -- (v4);
+								\draw[edge,color=red] (v2) -- (v2);
+								\draw[edge,line width=60pt ,color=blue] (v2) -- (v2);
+						\end{pgfonlayer}
 
-							\node[elabel,color=red,label=right:\(n_1\)]  (n1) at (-3,0) {};
-							\node[elabel,below of=n1,color=green,label=right:\(n_2\)]  (n2) {};
-							\node[elabel,below of=n2,color=orange,label=right:\(n_3\)]  (n3) {};
-							\node[elabel,below of=n3,color=blue,label=right:\(n_4\)]  (n4) {};
-							\node[elabel,below of=n4,color=yellow,label=right:\(n_4\)]  (n5) {};
-					\end{tikzpicture}
-					\centering
-					\caption{The hypergraph of the $A_{5x4}$ matrix.}
-					\label{fig:hypergraph}
-			\end{figure}
+						\node[elabel,color=red,label=right:\(n_1\)]  (n1) at (-3,0) {};
+						\node[elabel,below of=n1,color=green,label=right:\(n_2\)]  (n2) {};
+						\node[elabel,below of=n2,color=orange,label=right:\(n_3\)]  (n3) {};
+						\node[elabel,below of=n3,color=blue,label=right:\(n_4\)]  (n4) {};
+						\node[elabel,below of=n4,color=yellow,label=right:\(n_4\)]  (n5) {};
+				\end{tikzpicture}
+				\centering
+				\caption{The hypergraph of the $A_{5x4}$ matrix.}
+				\label{fig:hypergraph}
+		\end{figure}
 
-		\item %TODO What cost function? How to partition?
-
+	\item %TODO What cost function? How to partition?
 \end{enumerate}
 \end{solution}
 
@@ -120,10 +119,62 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
 \end{enumerate}
 
-
-
 \end{question}
-\begin{solution}
+\begin{solution} The solution to the subquestions are given below.
+\begin{enumerate}
+	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
+		\begin{lstlisting}[caption="BSP odd-even transposition sort.",label=lst:oddeven]
+		void odd_even_par(float *array, int n){
+				//array is a pointer to the array to sort.
+				//n = length of the array and assumed a multiple of P(or p).
+				bsp_begin(P);
+				//Initialisation and data distribution superstep
+				int p = bsp_nprocs(); 
+				int s = bsp_pid();
+				int localsize = sizeof(float)*n/p;
+				int *localarray = malloc(localsize);
+				for(int i=0; i<n/p; i++){
+						localarray[i] = array[s+i*n/p];
+				}
+				bsp_push_reg(localarray, localsize);
+				bsp_sync();
+				
+				//Initialisation superstep
+				for(int i=1; i<=n; i++){
+						if(!isEven(i)){ // i is odd
+								if(!isEven(s)){ // pid is odd
+										comp_exch_min(s+1);
+								} else { // pid is even
+										comp_exch_max(s-1);
+								}
+						} else { // i is even
+								if(isEven(s)){ // pid is even
+										comp_exch_min(s+1);
+								} else { // pid is odd 
+										comp_exch_max(s-1);
+								}
+						}
+
+				}
+		}
+
+		int isEven(int i){
+				return i % 2;	
+		}
+
+		void comp_exch_min(int otherpid){
+				
+		}
+
+		void comp_exch_max(int otherpid){
+		
+		}
+		\end{lstlisting}
+			
+	\item Parallel execution time.
+	\item Parallel efficiency.
+	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
+\end{enumerate}
 \end{solution}
 
 \subsection{Shared Memory}
