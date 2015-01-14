@@ -98,17 +98,16 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 		\node[vertex,right of=v1,label=above:\(v_3\)] (v3) {};
 		\node[vertex,right of=v2,label=above:\(v_4\)] (v4) {};
 		\begin{pgfonlayer}{background}
-			\draw[edge,color=yellow] (v0) -- (v2);
-			\draw[edge,opacity=1,color=green] (v2) -- (v3);
-			\draw[edge,color=red] (v1) -- (v1);
-			\draw[edge,line width=60pt ,color=blue] (v1) -- (v1);
+			\draw[edge,color=red] (v4) -- (v4);
+			\draw[edge,opacity=1,color=green] (v0) -- (v3);
+			\draw[edge,color=yellow] (v1) -- (v4);
+			\draw[edge,color=blue] (v2) -- (v2);
 		\end{pgfonlayer}
 
 		\node[elabel,color=red,label=right:\(n_0\)]  (n0) at (-3,0) {};
 		\node[elabel,below of=n0,color=green,label=right:\(n_1\)]  (n1) {};
-		\node[elabel,below of=n1,color=orange,label=right:\(n_2\)]  (n2) {};
+		\node[elabel,below of=n1,color=yellow,label=right:\(n_2\)]  (n2) {};
 		\node[elabel,below of=n2,color=blue,label=right:\(n_3\)]  (n3) {};
-		\node[elabel,below of=n3,color=yellow,label=right:\(n_4\)]  (n4) {};
 		\end{tikzpicture}
 		\centering
 		\caption{The hypergraph of the $A_{5\times4}$ matrix.}
@@ -123,7 +122,7 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition sort, the fundamental operation is compare-exchange (when each process has 1 element, $n = p$) or compare-split (each process has $n/p$ elements). Give for both cases:
 \begin{enumerate}
 	\item A BSP algorithm.
-	\item Parallel execution time.
+	\item Parallel execution time. 
 	\item Parallel efficiency.
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
 \end{enumerate}
@@ -133,7 +132,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \begin{enumerate}
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
-	\item Parallel execution time.
+	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each. 
 	\item Parallel efficiency.
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
 \end{enumerate}
