@@ -158,18 +158,25 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 	\end{multlined}
 	\end{equation}
 	We found the following 2-way row partition: $\mathcal{P}_2 = \{\mathcal{V}_0 = \{0,2,3\}, \mathcal{V}_1 = \{1,4\}\}$. No refinements were needed.
-	\item The equation for the cost is given below.
+	\item
+		The connectivity of a hypergraph is given by the following formula.
 		\begin{equation}
-			C = \sum_{n_j \in N} (\lambda_j - 1)
+			\lambda_j = | \{\mathcal{V}_i \in \mathcal{P}_k |~ n_j \cap \mathcal{V}_i \neq \emptyset \} | ~\text{with}~n_j \in \mathcal{N}
 		\end{equation}
+		The hypergraph $\mathcal{H}=(\mathcal{V},\mathcal{N})$ is partitioned according to $\mathcal{P}_k = \{\mathcal{V}_0, \ldots, \mathcal{V}_{k-1}\}$, models the communication cost for the fan-out communication in the column-net model exactly. If we apply this to our example we find
 		\begin{equation}
-			\lambda_j = | \{\mathcal{V}_j \in \mathcal{P}_k | n_j \cap \mathcal{V}_j \neq \emptyset \} | ~\text{with}~n_j \in \mathcal{N}
+		\begin{array}{llll}
+			\lambda_0  & = | \{ \mathcal{V}_i \in \mathcal{P}_k |~ n_0 = \{4\} \cap \mathcal{V}_i \neq \emptyset \} | & = | \{ \mathcal{V}_1 \} | & = 1 \\
+			\lambda_1  & = | \{ \mathcal{V}_i \in \mathcal{P}_k |~ n_1 = \{0,3\} \cap \mathcal{V}_i \neq \emptyset \} | & = | \{ \mathcal{V}_0 \} | & = 1 \\
+			\lambda_2  & = | \{ \mathcal{V}_i \in \mathcal{P}_k |~ n_2 = \{1,4\} \cap \mathcal{V}_i \neq \emptyset \} | & = | \{ \mathcal{V}_1 \} | & = 1 \\
+			\lambda_3  & = | \{ \mathcal{V}_i \in \mathcal{P}_k |~ n_3 = \{2\} \cap \mathcal{V}_i \neq \emptyset \} | & = | \{ \mathcal{V}_0 \} | & = 1 \\
+		\end{array}
 		\end{equation}
-		The hypergraph $\mathcal{H}=(\mathcal{V},\mathcal{N})$ is partitioned according to $\mathcal{P}_k = \{\mathcal{V}_0, \ldots, \mathcal{V}_{k-1}\}$, models the communication cost for the fan-out communication in the column-net model exactly. If we apply this to our example we find that if $\lambda_i \in \Lambda$ that
+		The connectivity however does not model the communication volume. To do so, the $(\lambda-1)$-metric is introduced, which is used in the cost formula below.
 		\begin{equation}
-			\Lambda = \{|\emptyset|,|\emptyset|\} = \{0,0\}
+			C = \sum_{n_j \in \mathcal{N}} (\lambda_j - 1) = 0
 		\end{equation}
-		because $n_0 \cap V_0 = \{4\} \cap \{0,2,3\} = \emptyset$ and $n_1 \cap V_1 = \{0,3\} \cap \{1,4\} = \emptyset$.
+		This models the communication model exactly which models the amount of fan-out communication in the column-net model.
 \end{enumerate}
 
 \end{solution}
