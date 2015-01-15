@@ -77,8 +77,8 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 				O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}
 			\end{equation}
 	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall j \in J$ we define a net $n_j \in N$ with
-	$$ n_j = \{i \in I ~|~ a_{ij} \neq 0\} $$ 
-	The hypergraph of the example $5 \times 4$ matrix is $H=(\{1,\ldots,5\},\{\{4\},\{0, 3\},\{1,4\},\{2\}\})$ and it's graphical representation can be found in \autoref{fig:hypergraph}.
+	$$ n_j = \{i \in I ~|~ a_{ij} \neq 0\} $$
+	The hypergraph of the example $5 \times 4$ matrix is $\mathcal{H}=(\mathcal{V} =\{1,\ldots,5\},\mathcal{N} = \{\{4\},\{0, 3\},\{1,4\},\{2\}\})$ and it's graphical representation can be found in \autoref{fig:hypergraph}.
 
 	\begin{equation}
 		A_{5\times4} = \begin{bmatrix}
@@ -113,40 +113,40 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 	\caption{The hypergraph of the $A_{5\times4}$ matrix.}
 	\label{fig:hypergraph}
 	\end{figure}
-	To find the distribution model we still have to partition $H$ over the available processors. Since we are working with a column-net model coarsening means combining similar rows. For this example we assume that there are 2 processors available so we execute a 2-way multi-level partition.
+	To find the distribution model we still have to partition $\mathcal{H}$ over the available processors. Since we are working with a column-net model coarsening means combining similar rows. For this example we assume that there are 2 processors available so we execute a 2-way multi-level partition.
 	\begin{equation}
 	\begin{multlined}
-		A_{5\times4} = 
+		A_{5\times4} =
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
 		\cdot & \cdot & 1 & 1 \\
 		\cdot & \cdot & \cdot & \cdot \\
 		\cdot & 1 & \cdot & \cdot \\
 		1 & \cdot & 1 & \cdot
-		\end{bmatrix} 
+		\end{bmatrix}
 		\xrightarrow[(r_0,r_3),(r_1,r_4)]{coarsen}
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
 		1 & \cdot & 1 & 1 \\
 		\cdot & \cdot & \cdot & \cdot \\
-		\end{bmatrix} 
+		\end{bmatrix}
 		\xrightarrow[(r_0,r_2)]{coarsen}
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
 		1 & \cdot & 1 & 1 \\
-		\end{bmatrix} 
+		\end{bmatrix}
 		\\
 		\xrightarrow[]{partition}
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
 		\mathbf{1} & \cdot & \mathbf{1} & \mathbf{1} \\
-		\end{bmatrix} 
+		\end{bmatrix}
 		\xrightarrow[(r0,r2)]{uncoarsen}
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
 		\mathbf{1} & \cdot & \mathbf{1} & \mathbf{1} \\
 		\cdot & \cdot & \cdot & \cdot \\
-		\end{bmatrix} 
+		\end{bmatrix}
 		\xrightarrow[(r_0,r_3),(r_1,r_4)]{uncoarsen}
 		\begin{bmatrix}
 		\cdot & 1 & \cdot & \cdot \\
@@ -154,10 +154,10 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 		\cdot & \cdot & \cdot & \cdot \\
 		\cdot & 1 & \cdot & \cdot \\
 		\mathbf{1} & \cdot & \mathbf{1} & \cdot
-		\end{bmatrix} 
+		\end{bmatrix}
 	\end{multlined}
 	\end{equation}
-	We found the following 2-way row partition: $P_2 = \{\{0,2,3\},\{1,4\}\}$. No refinements were needed.
+	We found the following 2-way row partition: $\mathcal{P}_2 = \{\{0,2,3\},\{1,4\}\}$. No refinements were needed.
 	\item The equation
 		\begin{equation}
 			C = \Sigma_{n_j \in N} (\lambda_j - 1)
@@ -176,7 +176,7 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition sort, the fundamental operation is compare-exchange (when each process has 1 element, $n = p$) or compare-split (each process has $n/p$ elements). Give for both cases:
 \begin{enumerate}
 	\item A BSP algorithm.
-	\item Parallel execution time. 
+	\item Parallel execution time.
 	\item Parallel efficiency.
 	\item For $n/p$ elements: if $n$ increases (with a fixed $p$), what will happen to the parallel efficiency?
 \end{enumerate}
@@ -186,7 +186,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \begin{enumerate}
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}. This implementation assumes that their are at least as many processors available as there are data elements.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
-	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each. 
+	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each.
 	\item The parallel efficiency is defined as
 	\begin{equation}
 		E = \frac{T_\text{seq}}{p T_p} = \frac{S}{p}
