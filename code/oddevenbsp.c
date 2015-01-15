@@ -48,7 +48,7 @@ void comp_exch_min(int otherpid, float *myelem,  float *otherelem){
 }
 
 //keep the only the maxima in the local array
-void comp_exch_max(int otherpid){
+void comp_exch_max(int otherpid, float *myelem,  float *otherelem){
 	//Communication superstep 1: exchanging with neighboring processors.
 	bsp_get(otherpid, localelem, 0, otherelem, sizeof(float));
 	bsp_sync();
