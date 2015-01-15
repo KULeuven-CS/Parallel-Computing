@@ -2,27 +2,31 @@
 
 void odd_even_par(float *array, int n){
 	//array is a pointer to the array to sort.
-	//n = length of the array and amount of used processors. 
+	//n = length of the array and amount of used processors.
 	//n is assumed to be a multiple of p.
 	bsp_begin(P);
 	//Initialisation and data distribution superstep 0
-	int p = P; 
+	int p = P;
 	int s = bsp_pid();
-	int chunklength = n/p; 
+	int chunklength = n/p;
 	int chunksize = sizeof(float)*chunklength;
-	//Allocate 2 times the chunk size for the local array to avoid copying memory.
+
+	// Superstep (0)
+
+	// Allocate 2 times the chunk size for the local array to avoid copying memory.
 	int *localarray = malloc(chunksize);
 	int *otherarray = malloc(chunksize);
-	for(int i=0; i<n/p; i++){
-		localarray[i] = array[s+i*n/p];
+	for(int i=0; i< chunklength; i++){
+		localarray[i] = array[s+i*chunklength];
 	}
 	bsp_push_reg(localarray, chunksize);
+
+	// Sort the initial array
+	qsort(localarray, chunksize, sizeof(float), compare_floats_asc);
 	bsp_sync();
 
-	//Calculation superstep for first local sorting
-	qsort(localarray, chunksize, sizeof(float), compare_floats_asc);
 
-	for(int i=1; i<=n; i++){ // n times the superstep 3 and 4
+	for(int i=1; i<=n; i++){
 		if(!isEven(i)){ // i is odd
 			if(!isEven(s)){ // pid is odd
 				comp_split_min(s+1, localarray, otherarray, chunksize, chunklength);
@@ -32,7 +36,7 @@ void odd_even_par(float *array, int n){
 		} else { // i is even
 			if(isEven(s)){ // pid is even
 				comp_split_min(s+1, localarray, otherarray, chunksize, chunklength);
-			} else { // pid is odd 
+			} else { // pid is odd
 				comp_split_max(s-1, localarray, otherarray, chunksize, chunklength);
 			}
 		}
@@ -41,17 +45,19 @@ void odd_even_par(float *array, int n){
 }
 
 int isEven(int i){
-	return i % 2;	
+	return i % 2;
 }
 
 //keep the only the minima in the local array
 void comp_split_min(int otherpid, float *myarray, float *otherarray, int chunksize, int chunklength){
-	//Communication superstep 3: get other chuck and store it in the second part of the localarray 
+
+	// Superstep (1)
+	// Get other chuck and store it in the second part of the localarray
 	bsp_get(otherpid, localarray, 0, otherarray, chunksize);
 	bsp_sync();
 
-	//Calcuclation superstep 4: local sort and split with neighboring processors.
-	//now the lower half of localarray has the correct (lowest) values.
+	// Superstep (2)
+	// Local sort and split with neighboring processors.
 	int t=0;
 	float localarray=myarray, tmp=malloc(chunksize);
 	while(t<chunklength){
@@ -71,12 +77,13 @@ void comp_split_min(int otherpid, float *myarray, float *otherarray, int chunksi
 
 //keep the only the maxima in the local array
 void comp_split_max(int otherpid, float *myarray, float *otherarray, int chunksize, int chunklength){
-	//Communication superstep 3: 
+
+	// Superstep (1)
 	bsp_get(otherpid, myarray, 0, myarray+chunklength, chunksize);
 	bsp_sync();
 
-	//Calcuclation superstep 4: local sort and split with neighboring processors.
-	//now the lower half of localarray has the correct (highest) values.
+	// Superstep (2)
+	// Local sort and split with neighboring processors.
 	int t=0;
 	float localarray=myarray+chunklength, oarray=otherarray+chunklength, tmp=malloc(chunksize);
 	while(t<chunklength){
