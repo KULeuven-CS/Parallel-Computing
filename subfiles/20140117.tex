@@ -78,7 +78,7 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 			\end{equation}
 	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall j \in J$ we define a net $n_j \in N$ with
 	\begin{equation}
-		n_j = \{i \in I ~|~ a_{ij} \neq 0\} 
+		n_j = \{i \in I ~|~ a_{ij} \neq 0\}
 	\end{equation}
 	The hypergraph of the example $5 \times 4$ matrix is $\mathcal{H}=(\mathcal{V} =\{1,\ldots,5\},\mathcal{N} = \{\{4\},\{0, 3\},\{1,4\},\{2\}\})$ and it's graphical representation can be found in \autoref{fig:hypergraph}.
 
@@ -198,14 +198,17 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \begin{enumerate}
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}. This implementation assumes that their are at least as many processors available as there are data elements.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
-	\item For superstep 0 (initialisation and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = pg + l$. Supersteps 1 (communication superstep)and Superstep 2 (Calculation superstep) are excecuted $n$ times each.
+	\item For superstep 0 (initialization and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = \frac{p}{2}g + l$. Supersteps 1 (communication superstep) and superstep 2 (Calculation superstep) are excecuted $n$ times each.
+	\begin{equation}
+		T_p = n(p + pg + l) = np + \frac{np}{2}g + nl
+	\end{equation}
 	\item The parallel efficiency is defined as
 	\begin{equation}
 		E = \frac{T_\text{seq}}{p T_p} = \frac{S}{p}
 	\end{equation}
-	The sequential time $T_\text{seq}$ is given by the bubble-sort algorithm, which is $n^2$. The parallel time is given by the answer to the previous question.
+	The sequential time $T_\text{seq}$ is given by the sequential odd-even transposition algorithm, which is $n^2$. The parallel time is given by the answer to the previous question.
 	\begin{equation}
-		E = \frac{n^2}{p \cdot ()}
+		E = \frac{n^2}{p \cdot (T_p)} = \frac{n}{p \cdot (p + pg + l)} = \frac{n}{p^2 + p^2g + l}
 	\end{equation}
 	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
 \end{enumerate}
