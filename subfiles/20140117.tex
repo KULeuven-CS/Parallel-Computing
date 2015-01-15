@@ -254,7 +254,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\end{equation}
 	\item Looking at the complexity of $E_p(n)$ we can say about the efficiency for $n \to \infty$: 
 		\begin{equation}
-			E_p(n) = \frac{O(n^2)}{O(n \log(n) + n)} 
+			E_p(n) = \frac{\mathcal{O}(n^2)}{\mathcal{O}(n \log(n) + n)} 
 		\end{equation}
 	Because the nominator grows faster than the denominator we can see that the parallel efficiency increases with the size of the problem. 
 
@@ -277,9 +277,18 @@ void spmd(){
 
 \end{question}
 \begin{solution}
-There are two common pitfalls with non-BSP shared memory implementations: \textbf{data races}, \textbf{false sharing} and \textbf{inefficient cache use}. The given problem is an illustration of the first. A data race occurs when multiple processors access the same memory location concurrently and at least one of them is writing. This leads to inconsistencies and the value most likely to be incorrect.
+There are two common pitfalls with non-BSP shared memory implementations: \textbf{data races}, \textbf{false sharing} and \textbf{inefficient cache use}.
+The given problem is an illustration of the first.
+A data race occurs when multiple processors access the same memory location concurrently and at least one of them is writing.
+This leads to inconsistencies and the value most likely to be incorrect.
 \\\\
-We briefly discuss the other two pitfalls while giving the correct implementation. One solution  is storing the partial sums separately. Using an array of $p$ elements however would lead to \textbf{false sharing}. On every iteration, the array would be marked dirty in the cache, even though the value change at index i (at $p(i)$) is logically independent of the chance of value at index j (at $p(j)$). The last pitfall occurs when we choose to extend the array so that each cache line is only accessed by a single processor. This works, but leads to inefficient cache use because all processors would be accessing all cache lines. The correct solution is given below.
+We briefly discuss the other two pitfalls while giving the correct implementation.
+One solution is storing the partial sums separately.
+Using an array of $p$ elements however would lead to \textbf{false sharing}.
+On every iteration, the array would be marked dirty in the cache, even though the value change at index $i$ (at $p(i)$) is logically independent of the change of value at index $j$ (at $p(j)$).
+The last pitfall occurs when we choose to extend the array so that each cache line is only accessed by a single processor.
+This works, but leads to inefficient cache use because all processors would be accessing all cache lines.
+The correct solution is given below which corresponds to the pseudo code in \cite{slides7}.
 
 \begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:solspmd]
 double a[8p];
@@ -291,8 +300,5 @@ void spmd(){
 		a[8s] += x[i]y[i];
 }
 \end{lstlisting}
-
-
 \end{solution}
-
 \end{document}
