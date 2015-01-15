@@ -157,12 +157,15 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 		\end{bmatrix}
 	\end{multlined}
 	\end{equation}
-	We found the following 2-way row partition: $\mathcal{P}_2 = \{\{0,2,3\},\{1,4\}\}$. No refinements were needed.
-	\item The equation
+	We found the following 2-way row partition: $\mathcal{P}_2 = \{\mathcal{V}_0 = \{0,2,3\}, \mathcal{V}_1 = \{1,4\}\}$. No refinements were needed.
+	\item The equation for the cost is given below.
 		\begin{equation}
-			C = \Sigma_{n_j \in N} (\lambda_j - 1)
+			C = \sum_{n_j \in N} (\lambda_j - 1)
 		\end{equation}
-		where $\lambda_j = |\{V_j \in P_k | n_j \cap V_j = \emptyset \} |$, $n_j \in N$ and the hypergraph $H=(V,N)$ is partitioned according to $P_k = \{V_0, \ldots, V_{k-1}\}$, models the communication cost for the fan-out communication in the column-net model exactly. If we apply this to our example we find that if $\lambda_i \in \Lambda$ that
+		\begin{equation}
+			\lambda_j = | \{\mathcal{V}_j \in \mathcal{P}_k | n_j \cap \mathcal{V}_j \neq \emptyset \} | ~\text{with}~n_j \in \mathcal{N}
+		\end{equation}
+		The hypergraph $\mathcal{H}=(\mathcal{V},\mathcal{N})$ is partitioned according to $\mathcal{P}_k = \{\mathcal{V}_0, \ldots, \mathcal{V}_{k-1}\}$, models the communication cost for the fan-out communication in the column-net model exactly. If we apply this to our example we find that if $\lambda_i \in \Lambda$ that
 		\begin{equation}
 			\Lambda = \{|\emptyset|,|\emptyset|\} = \{0,0\}
 		\end{equation}
