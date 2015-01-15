@@ -77,7 +77,9 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 				O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}
 			\end{equation}
 	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall j \in J$ we define a net $n_j \in N$ with
-	$$ n_j = \{i \in I ~|~ a_{ij} \neq 0\} $$
+	\begin{equation}
+		n_j = \{i \in I ~|~ a_{ij} \neq 0\} 
+	\end{equation}
 	The hypergraph of the example $5 \times 4$ matrix is $\mathcal{H}=(\mathcal{V} =\{1,\ldots,5\},\mathcal{N} = \{\{4\},\{0, 3\},\{1,4\},\{2\}\})$ and it's graphical representation can be found in \autoref{fig:hypergraph}.
 
 	\begin{equation}
