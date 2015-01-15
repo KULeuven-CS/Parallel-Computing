@@ -6,9 +6,7 @@ void odd_even_par(float *array, int n){
 	int p = n; 
 	int s = bsp_pid();
 	float *localelem, *otherelem;
-	for(int i=0; i<n; i++){
-		localelem = array[i];
-	}
+	localelem = array[s];
 	bsp_push_reg(localelem, sizeof(float));
 	bsp_sync();
 
