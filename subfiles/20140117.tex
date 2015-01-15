@@ -205,18 +205,18 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 		\begin{equation}
 			T_1 = \frac{n}{p}
 		\end{equation}
-		\item \textbf{Superstep (1)}:
+		\item \textbf{Superstep (1)}: Each processors exchanges its local array with that of his neighbor.
 		\begin{equation}
-			T_2 =
+			T_2 = 2 \cdot \frac{n}{p} g + l
 		\end{equation}
-		\item \textbf{Superstep (2)}:
+		\item \textbf{Superstep (2)}: This superstep performs the compate-split operation. Here, 2 $n/p$ items are compared against eachother.
 		\begin{equation}
-			T_3 =
+			T_3 = 2 \cdot \frac{n}{p}
 		\end{equation}
 	\end{itemize}
 	Therefore, the total cost is given by the sums of the supersteps.
 	\begin{equation}
-		T = T_1 + T_2 + T_3 =
+		T = T_1 + n \cdot (T_2 + T_3) =
 	\end{equation}
 	\item The parallel efficiency is defined as
 	\begin{equation}
