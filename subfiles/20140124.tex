@@ -96,11 +96,11 @@ LU factorization with 2-phase broadcast.
 Given a multicore program for calculating the average value of a matrix $A$. What is the efficiency and how can we do
 better?
 \end{question}
-\begin{solution} The \emph{Parallel Efficiency} is defined in \autoref{eq:pareff}. The efficiency correlates the
-increase in speedup with the number of processors. The efficiency of a given parallel algorithm can be increased by
-either decreasing the number of processors (Amdahl's Law) or increasing the problem size.
+\begin{solution} The \emph{Parallel Efficiency} is defined in \autoref{eq:pareff}.
+	The efficiency correlates the increase in speedup with the number of processors or can also be seen as the fraction of the total computing power that is usefully employed \cite[p.~141]{bisseling04}.
+	The efficiency of a given parallel algorithm can be increased by either decreasing the number of processors (Amdahl's Law) or increasing the problem size $n$.
 \begin{equation}\label{eq:pareff}
-	E = \frac{T_\text{sec}}{p \cdot T_p} = \frac{S}{p}
+	E_p(n) = \frac{T_\text{sec}(n)}{p \cdot T_p(n)} = \frac{S_p(n)}{p}
 \end{equation}
 \end{solution}
 
