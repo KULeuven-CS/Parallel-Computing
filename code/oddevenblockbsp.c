@@ -59,7 +59,7 @@ void comp_split_min(int otherpid, float *myarray, float *otherarray, int chunksi
 	// Superstep (2)
 	// Local sort and split with neighboring processors.
 	int t=0;
-	float localarray=myarray, tmp=malloc(chunksize);
+	float *localarray=myarray, *tmp=malloc(chunksize);
 	while(t<chunklength){
 		if(*localarray <= *otherarray){
 			tmp[t] = *localarray;

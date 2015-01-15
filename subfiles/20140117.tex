@@ -203,20 +203,20 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\begin{itemize}
 		\item \textbf{Superstep (0)}: This superstep initializes the local array which contains $n/p$ elements.
 		\begin{equation}
-			T_1 = \frac{n}{p}
+			T_1 = \frac{n}{p} + n \cdot log(n)
 		\end{equation}
 		\item \textbf{Superstep (1)}: Each processors exchanges its local array with that of his neighbor.
 		\begin{equation}
-			T_2 = 2 \cdot \frac{n}{p} g + l
+			T_2 = 2 g + l
 		\end{equation}
 		\item \textbf{Superstep (2)}: This superstep performs the compate-split operation. Here, 2 $n/p$ items are compared against eachother.
 		\begin{equation}
-			T_3 = 2 \cdot \frac{n}{p}
+			T_3 = \frac{n}{p}
 		\end{equation}
 	\end{itemize}
 	Therefore, the total cost is given by the sums of the supersteps.
 	\begin{equation}
-		T = T_1 + n \cdot (T_2 + T_3) =
+		T = T_1 + n \cdot (T_2 + T_3) = \frac{n}{p} + n \cdot log(n) + n \cdot (2 g + l + \frac{n}{p}) = n \cdot \left( \frac{1+n}{p} + log(n) + 2g + l \right)
 	\end{equation}
 	\item The parallel efficiency is defined as
 	\begin{equation}
@@ -224,7 +224,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\end{equation}
 	The sequential time $T_\text{seq}$ is given by the sequential odd-even transposition algorithm, which is $n^2$. The parallel time is given by the answer to the previous question.
 	\begin{equation}
-		E = \frac{n^2}{p \cdot T_p} = \frac{n}{p \cdot (p + pg + l)} = \frac{n}{p^2 + p^2g + l}
+		E = \frac{n^2}{p \cdot T_p} = \frac{n}{p \cdot \left( \frac{1+n}{p} + log(n) + 2g + l \right)} = \frac{n}{ 1 + n + p \cdot log(n) + 2pg + pl}
 	\end{equation}
 	\item
 \end{enumerate}
