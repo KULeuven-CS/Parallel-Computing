@@ -224,7 +224,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\begin{itemize}
 		\item \textbf{Superstep (0)}: This superstep initializes the local array which contains $n/p$ elements.
 		\begin{equation}
-			T_0 = \frac{n}{p} + \frac{n}{p} \cdot log(\frac{n}{p}) + l
+			T_0 = \frac{n}{p} + \frac{n}{p} \cdot \log(\frac{n}{p}) + l
 		\end{equation}
 		\item \textbf{Superstep (1)}: Each processors exchanges its local array with that of his neighbor.
 		\begin{equation}
@@ -238,21 +238,26 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	Therefore, the total cost is given by the sums of the supersteps.
 	\begin{equation}
 		\begin{split}
-			T_p & = T_0 + n \cdot (T_1 + T_2) \\
-				& = \frac{n}{p} + \frac{n}{p} \cdot log(\frac{n}{p}) +l + n \cdot (2 g + l + \frac{n}{p} + l) \\
-				& = \frac{n}{p} + \frac{n}{p} \cdot log(\frac{n}{p}) +l + 2gn + \frac{n}{p}n + 2ln \\
-				& = n \cdot \left( \frac{1}{p} + \frac{1}{p} log(\frac{n}{p}) + 2g \right) + \left( 1 + 2n \right) l
+			T_p(n) & = T_0 + n \cdot (T_1 + T_2) \\
+				& = \frac{n}{p} + \frac{n}{p} \cdot \log(\frac{n}{p}) +l + n \cdot (2 g + l + \frac{n}{p} + l) \\
+				& = \frac{n}{p} + \frac{n}{p} \cdot \log(\frac{n}{p}) +l + 2gn + \frac{n}{p}n + 2ln \\
+				& = n \cdot \left( \frac{1}{p} + \frac{1}{p} \log(\frac{n}{p}) + 2g \right) + \left( 1 + 2n \right) l
 		\end{split}
 	\end{equation}
 	\item The parallel efficiency is defined as
 	\begin{equation}
-		E = \frac{T_\text{seq}}{p T_p} = \frac{S}{p}
+		E_p (n) = \frac{T_\text{seq}(n)}{p T_p(n)} = \frac{S_p(n)}{p}
 	\end{equation}
 	The sequential time $T_\text{seq}$ is given by the sequential odd-even transposition algorithm, which is $n^2$. The parallel time is given by the answer to the previous question.
 	\begin{equation}
-		E = \frac{n^2}{p \cdot T_p} = \frac{n^2}{p \cdot \left( n \cdot \left( \frac{1}{p} + \frac{1}{p} log(\frac{n}{p}) + 2g \right) + \left( 1 + 2n \right) l \right) } 
+		E_p(n) = \frac{n^2}{p \cdot T_p} = \frac{n^2}{p \cdot \left( n \cdot \left( \frac{1}{p} + \frac{1}{p} \log(\frac{n}{p}) + 2g \right) + \left( 1 + 2n \right) l \right) } 
 	\end{equation}
-	\item
+	\item Looking at the complexity of $E_p(n)$ we can say about the efficiency for $n \to \infty$: 
+		\begin{equation}
+			E_p(n) = \frac{O(n^2)}{O(n \log(n) + n)} 
+		\end{equation}
+	Because the nominator grows faster than the denominator we can see that the parallel efficiency increases with the size of the problem. 
+
 \end{enumerate}
 \end{solution}
 
