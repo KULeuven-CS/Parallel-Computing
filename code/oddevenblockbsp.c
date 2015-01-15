@@ -1,5 +1,5 @@
 #include <stdlib.h>
-
+//Sorts the given array of the given length
 void odd_even_par(float *array, int n){
 	//array is a pointer to the array to sort.
 	//n = length of the array and amount of used processors.
@@ -49,7 +49,8 @@ int isEven(int i){
 }
 
 //keep the only the minima in the local array
-void comp_split_min(int otherpid, float *myarray, float *otherarray, int chunksize, int chunklength){
+void comp_split_min(int otherpid, float *myarray, float *otherarray, 
+		int chunksize, int chunklength){
 
 	// Superstep (1)
 	// Get other chuck and store it in the second part of the localarray
@@ -76,7 +77,8 @@ void comp_split_min(int otherpid, float *myarray, float *otherarray, int chunksi
 }
 
 //keep the only the maxima in the local array
-void comp_split_max(int otherpid, float *myarray, float *otherarray, int chunksize, int chunklength){
+void comp_split_max(int otherpid, float *myarray, float *otherarray, 
+		int chunksize, int chunklength){
 
 	// Superstep (1)
 	bsp_get(otherpid, myarray, 0, myarray+chunklength, chunksize);
@@ -85,7 +87,7 @@ void comp_split_max(int otherpid, float *myarray, float *otherarray, int chunksi
 	// Superstep (2)
 	// Local sort and split with neighboring processors.
 	int t=0;
-	float localarray=myarray+chunklength, oarray=otherarray+chunklength, tmp=malloc(chunksize);
+	float *localarray=myarray, *tmp=malloc(chunksize);
 	while(t<chunklength){
 		if(*localarray >= *oarray){
 			tmp[chunklength-t] = *localarray;
