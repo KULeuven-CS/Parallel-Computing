@@ -199,9 +199,24 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}. This implementation assumes that their are at least as many processors available as there are data elements. A BSP implementation for the odd-even $n/p$ block transposition sort can be found in \autoref{lst:oddevenblock}.
 		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
 		\lstinputlisting[caption="BSP odd-even $\frac{n}{p}$ block transposition sort.",label=lst:oddevenblock]{code/oddevenblockbsp.c}
-	\item For superstep 0 (initialization and data distribution) their are $p$ messages send to distribute the initial array over the $p$ processors. This gives cost $T_{(0)} = \frac{p}{2}g + l$. Supersteps 1 (communication superstep) and superstep 2 (Calculation superstep) are excecuted $n$ times each.
+	\item We calculate the cost for the different supersteps.
+	\begin{itemize}
+		\item \textbf{Superstep (0)}: This superstep initializes the local array which contains $n/p$ elements.
+		\begin{equation}
+			T_1 = \frac{n}{p}
+		\end{equation}
+		\item \textbf{Superstep (1)}: Each processors exchanges its local array with that of his neighbor.
+		\begin{equation}
+			T_2 = 2 \cdot \frac{n}{p} g + l
+		\end{equation}
+		\item \textbf{Superstep (2)}: This superstep performs the compate-split operation. Here, 2 $n/p$ items are compared against eachother.
+		\begin{equation}
+			T_3 = 2 \cdot \frac{n}{p}
+		\end{equation}
+	\end{itemize}
+	Therefore, the total cost is given by the sums of the supersteps.
 	\begin{equation}
-		T_p = n(p + pg + l) = np + \frac{np}{2}g + nl
+		T = T_1 + n \cdot (T_2 + T_3) =
 	\end{equation}
 	\item The parallel efficiency is defined as
 	\begin{equation}
@@ -211,7 +226,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 	\begin{equation}
 		E = \frac{n^2}{p \cdot T_p} = \frac{n}{p \cdot (p + pg + l)} = \frac{n}{p^2 + p^2g + l}
 	\end{equation}
-	\item For n/p elements: if n increases (with a fixed p), what will happen to the parallel efficiency?
+	\item
 \end{enumerate}
 \end{solution}
 
