@@ -28,7 +28,7 @@ void pairwiseSwap(){
 	bsp_end();
 }
 \end{lstlisting}
-	\item The $h$-relation is given by $h = max\{h_s,h_r\}$. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$. The total cost is $T = g + l$.
+	\item The $h$-relation is given by $h = max\{h_s,h_r\}$ \cite[p.~5]{bisseling04}. In the previous case, a processor sends one element and receives one. Therefore, $h = 1$. The total cost is $T(h) = g + l$.
 	\item The non-BSP program for one-to-all communication is given below. We assume primitives \texttt{send(message, dest)} and \texttt{receive(message, sender)}. The data is not buffered.
 \begin{lstlisting}
 void pairwiseSwap(){
@@ -68,13 +68,35 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 	\begin{equation}
 		T_{MV} \leq \frac{2cn}{p} + n + 2 \Big( 1 - \frac{1}{p} \Big) ng + 4l
 	\end{equation}
-			where the fan-in superstep costs $T_{(2)} = (1-\frac{1}{p})ng + l$ and the last superstep $T_{(3)} = n + l $ \cite[p.~178]{bisseling04}. Because there is only one partial sum per row with the given distribution $T_{(3)}' = \frac{n}{p} + l $ and removing $T_{(3)}$ entirely gives us
-			\begin{equation}
-				T_{MV}' \leq \frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l
-			\end{equation}
+	$T_{MV}$ is the sum of the worst case costs of the supersteps:
+	\begin{equation}
+		T_{(0)} = \left(1 - \frac{1}{p} \right) ng + l 
+	\end{equation}
+	\begin{equation}
+		T_{(1)} = 2cn/p + l 
+	\end{equation}
+	\begin{equation}
+		T_{(2)} = \left( 1-\frac{1}{p} \right)ng + l
+	\end{equation}
+	\begin{equation}
+		T_{(3)} = n + l
+	\end{equation}
+	These equations are for an $n \times n$ matrix \cite[p.~178]{bisseling04}. Because there is only one partial sum per row with the given distribution $T_{(3)}' = \frac{n}{p} + l $. Omitting the fan-in step means that $T_{(2)}$ is not applicable. In the rest of the costs we also have to take into account we are working with an $m \times n$ matrix which gives us:
+		\begin{equation}
+			T_{(0)} = T_{(0)}' = \left(1 - \frac{1}{p} \right) ng + l 
+		\end{equation}
+		\begin{equation}
+			T_{(1)}' = \frac{2c\mathbf{m}}{p} + l 
+		\end{equation}
+		\begin{equation}
+			T_{(3)} = T_{(3)}' = n + l
+		\end{equation}
+		\begin{equation}
+			T_{MV}' \leq \frac{2c\mathbf{m}}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l
+		\end{equation}
 			The parallel overhead overhead is defined as the difference between the normalized cost and the ideal 1. So the overhead here is \cite[p.~141]{bisseling04}:
 			\begin{equation}
-				O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cn}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}
+				O = 1 - \frac{T_{MV}'}{T_{seq}/p} \leq 1 - \frac{\frac{2cm}{p} + \frac{n}{p} + \Big(1 - \frac{1}{p} \Big) ng + 3l}{2cm/p}
 			\end{equation}
 	\item ``A partitioning of a column-net model of A corresponds to a partitioning of the rows of A (a 1D row-wise distribution)'' \cite{slides6}. The colum-net model $H=(V,N)$ is defined as following: Let $I = \{0,1,\ldots,m-1\}$ and $J = \{0,1,\ldots,n-1\}$ then $I$ represents the rows and thus $V = I$ and $\forall j \in J$ we define a net $n_j \in N$ with
 	\begin{equation}
@@ -196,14 +218,13 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \end{question}
 \begin{solution} The solution to the subquestions are given below.
 \begin{enumerate}
-	\item A BSP algorithm for the odd-even transposition sort can be found in \autoref{lst:oddeven}. This implementation assumes that their are at least as many processors available as there are data elements. A BSP implementation for the odd-even $n/p$ block transposition sort can be found in \autoref{lst:oddevenblock}.
-		\lstinputlisting[caption="BSP odd-even transposition sort.",label=lst:oddeven]{code/oddevenbsp.c}
-		\lstinputlisting[caption="BSP odd-even $\frac{n}{p}$ block transposition sort.",label=lst:oddevenblock]{code/oddevenblockbsp.c}
+	\item A BSP implementation for the odd-even $n/p$ block transposition sort can be found in \autoref{lst:oddevenblock}. For the special case in which each processor should have only 1 element we assume that their are at least as many processors as there are data elements.
+		\lstinputlisting[caption="BSP odd-even n/p block transposition sort.",label=lst:oddevenblock]{\codeSrc/oddevenblockbsp.c}
 	\item We calculate the cost for the different supersteps.
 	\begin{itemize}
 		\item \textbf{Superstep (0)}: This superstep initializes the local array which contains $n/p$ elements.
 		\begin{equation}
-			T_1 = \frac{n}{p} + n \cdot log(n)
+			T_1 = \frac{n}{p} + \frac{n}{p} \cdot log(\frac{n}{p})
 		\end{equation}
 		\item \textbf{Superstep (1)}: Each processors exchanges its local array with that of his neighbor.
 		\begin{equation}
