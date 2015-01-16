@@ -6,4 +6,4 @@ This document contains previously used questions for the examination of the cour
 
 Please **star** this repository if you found its content useful!
 
-This document comes as is without any warranties. 
+This document comes as is, without any warranties. 
