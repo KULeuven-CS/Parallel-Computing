@@ -1,0 +1,52 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\subsection{One-to-all see \autoref{q:onetoall}}
+\subsection{LU factorisation see \autoref{q:lu}}
+\subsection{Shared Memory}
+\label{q:sm2}
+\begin{question}
+	We have p threads running the same SPMD program on a shared memory computer.
+	The algorithm given in \autoref{lst:matavg} should calculate the global average of the matrix and make that average available to all processors.
+\begin{lstlisting}[caption={Matrix average program on a shared memory computer},label=lst:matavg]
+void main(){
+	double r[m];
+	double a[m][n];
+
+	for (i=s; i<p; i+=p){
+		for(j = 0; j <n ; j ++){
+			r[i] += a[i][j];
+		}	
+	}
+
+	double avg = average(r);
+}
+\end{lstlisting}
+\begin{enumerate}
+	\item Complete the average function so that it does this in parallel.
+	\item Are there any problems with the algorithm with relation to efficiency? If so how can you solve them.
+\end{enumerate}
+
+\end{question}
+
+\begin{solution}
+\begin{enumerate}
+	\item
+	\item
+\end{enumerate}
+\end{solution}
+\subsection{BSP Quicksort 2}
+\label{q:qsort2}
+\begin{question}
+Assume that the BSP quicksort algorithm always -magically- choses the optimal pivot. 
+\begin{enumerate}
+	\item Give a high-level description of the algorithm, it's total cost and for each superstep it's bsp cost.
+	\item Why is chosing an optimal pivot even more important in a parallel version of quicksort than it is in a sequential version.
+\end{enumerate}
+\end{question}
+\begin{solution}
+\begin{enumerate}
+	\item 
+	\item 
+\end{enumerate}
+\end{solution}
+\end{document}

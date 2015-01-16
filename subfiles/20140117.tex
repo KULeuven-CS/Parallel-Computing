@@ -2,6 +2,7 @@
 \begin{document}
 
 \subsection{Pairwise Swap}
+\label{q:pairswap}
 \begin{question}
 Consider p processes (p is even), each process has 1 data element. The even processes s swap their element with their neighbour s+1 (= pair-wise swap).
 \begin{enumerate}
@@ -18,6 +19,8 @@ Consider p processes (p is even), each process has 1 data element. The even proc
 void pairwiseSwap(){
 	bsp_begin(P);
 	bsp_push_reg(element);
+	// Important: The effect of bsp_push_reg only takes effect at the next superstep
+	bsp_sync(); 
 	int s = bsp_pid();
 	if(s % 2 == 0){
 		bsp_put(s+1, data, element, 0, sizeof(data));
@@ -52,6 +55,7 @@ void pairwiseSwap(){
 \end{solution}
 
 \subsection{SpMV}
+\label{q:spmv}
 \begin{question}
 $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 \begin{enumerate}
@@ -206,6 +210,7 @@ $A$ is a sparse $M \times N$ matrix, $x$ and $y$ are vectors.
 \end{solution}
 
 \subsection{Odd-Even Transposition}
+\label{q:oddeven}
 \begin{question}
 Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition sort, the fundamental operation is compare-exchange (when each process has 1 element, $n = p$) or compare-split (each process has $n/p$ elements). Give for both cases:
 \begin{enumerate}
@@ -262,6 +267,7 @@ Array $x$ has $n$ elements with $n$ a multiple of $p$. In odd-even transposition
 \end{solution}
 
 \subsection{Shared Memory}
+\label{q:sm1}
 \begin{question}
 We have p threads running the same SPMD program on a shared memory computer. Will the following algorithm work? Describe any possible problems. Supply a working parallel algorithm.
 \begin{lstlisting}[caption={SPMD program on a shared memory computer},label=lst:spmd]
